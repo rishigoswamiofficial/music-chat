@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "rallycoding",
+    "plugin:react-hooks/recommended",
+    "plugin:react-native/all"
+  ],
+  "plugins": ["react", "react-native"],
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "react-native/react-native": true
+  },
+  "rules": {
+    "react/require-extension": "off",
+    "arrow-body-style": "off"
+  }
+}
