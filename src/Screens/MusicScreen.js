@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const MusicScreen = () => {
+const MusicScreen = (props) => {
   return (
     <View>
-      <Text>LoginScreen</Text>
+      <Text>MusicScreen</Text>
     </View>
   );
 };

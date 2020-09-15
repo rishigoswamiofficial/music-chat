@@ -5,8 +5,9 @@
     "plugin:react-native/all"
   ],
   "plugins": ["react", "react-native"],
+  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 7,
+    "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -17,6 +18,8 @@
   },
   "rules": {
     "react/require-extension": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "react-native/no-inline-styles": "off",
+    "react-native/sort-styles": "off"
   }
 }

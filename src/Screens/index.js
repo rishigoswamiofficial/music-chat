@@ -1,8 +1,12 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  getFocusedRouteNameFromRoute,
+} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import WelcomeScreen from './WelcomeScreen';
 import SignupScreen from './SignupScreen';
@@ -34,7 +38,11 @@ const FriendsTab = () => {
 const ConversationsTopTab = () => {
   return (
     <Stack.Navigator initialRouteName="Conversations">
-      <Stack.Screen name="Conversations" component={ConversationsScreen} />
+      <Stack.Screen
+        name="Conversations"
+        component={ConversationsScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="SendRequest" component={SendRequestScreen} />
       <Stack.Screen name="AcceptRequest" component={AcceptRequestScreen} />
       <Stack.Screen name="Chat" component={ChatScreen} />
@@ -44,7 +52,13 @@ const ConversationsTopTab = () => {
 
 const MusicTab = () => {
   return (
-    <Stack.Navigator initialRouteName="Music">
+    <Stack.Navigator
+      initialRouteName="Music"
+      screenOptions={{
+        headerShown: false,
+        cardStyle: { backgroundColor: '#212529' },
+      }}
+    >
       <Stack.Screen name="Music" component={MusicScreen} />
       <Stack.Screen name="Song" component={SongScreen} />
       <Stack.Screen name="AddToPlaylist" component={AddToPlaylistScreen} />
@@ -52,11 +66,16 @@ const MusicTab = () => {
   );
 };
 
-const isSignedIn = true;
+const isSignedIn = false;
 
 const AuthFlow = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: { backgroundColor: '#212529' },
+      }}
+    >
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
@@ -75,17 +94,44 @@ const MainFlow = () => {
   );
 };
 
+const showHideHeader = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Friends';
+  //Please use babel-eslint(8.2.1) for nullish coalescing operator to work
+  switch (routeName) {
+    case 'Friends':
+      return true;
+    case 'Music':
+      return false;
+    case 'Playlists':
+      return false;
+    case 'Profile':
+      return false;
+    default:
+      return true;
+  }
+};
+
 const Screens = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {isSignedIn ? (
-          <Stack.Screen name="Main" component={MainFlow} />
-        ) : (
-          <Stack.Screen name="Auth" component={AuthFlow} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {isSignedIn ? (
+            <Stack.Screen
+              name="Main"
+              component={MainFlow}
+              options={({ route }) => ({ headerShown: showHideHeader(route) })}
+            />
+          ) : (
+            <Stack.Screen
+              name="Auth"
+              component={AuthFlow}
+              options={{ headerShown: false }}
+            />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 };
 
