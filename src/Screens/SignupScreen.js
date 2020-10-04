@@ -1,21 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import { Input, Icon } from 'react-native-elements';
+import { Input, Icon, Image } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import ActionButton from '../Components/Buttons/actionButton';
 import GoogleButton from '../Components/Buttons/googleButton';
 import FacebookButton from '../Components/Buttons/facebookButton';
 import PhotoUpload from '../Components/BottomSheets/PhotoUpload';
+import useImagePicker from '../Hooks/useImagePicker';
+import useCamera from '../Hooks/useCamera';
 
 const SignupScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [image, setImage] = useState(null);
+  const [askCameraRollPermissions, openImagePicker] = useImagePicker();
+  const [askCameraPermissions, openCamera] = useCamera();
+
+  useEffect(() => {
+    askCameraPermissions();
+    askCameraRollPermissions();
+  });
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -25,12 +36,20 @@ const SignupScreen = () => {
       >
         <Text style={styles.title}>Music Chat</Text>
         <View style={styles.profilePictureUpload}>
-          <Icon
-            name="user-circle"
-            type="font-awesome"
-            size={140}
-            color={$white}
-          />
+          {!image ? (
+            <Icon
+              name="user-circle"
+              type="font-awesome"
+              size={140}
+              color={$white}
+            />
+          ) : (
+            <Image
+              source={{ uri: image }}
+              PlaceholderContent={<ActivityIndicator size="small" />}
+              style={styles.profileImage}
+            />
+          )}
           <TouchableOpacity
             style={styles.iconPosition}
             onPress={() => {
@@ -48,6 +67,12 @@ const SignupScreen = () => {
           <PhotoUpload
             isVisible={isVisible}
             onRequestClose={() => setIsVisible(false)}
+            openImagePicker={() =>
+              openImagePicker(setImage, () => setIsVisible(false))
+            }
+            openCamera={() => {
+              openCamera(setImage, () => setIsVisible(false));
+            }}
           />
         </View>
         <View style={styles.inputButtonContainer}>
@@ -77,9 +102,9 @@ const SignupScreen = () => {
             placeholderTextColor={$sleekGrey}
             secureTextEntry
           />
-          <ActionButton title="Login" />
-          <GoogleButton title="Login with Google" />
-          <FacebookButton title="Login with Facebook" />
+          <ActionButton title="Signup" />
+          <GoogleButton title="Signup with Google" />
+          <FacebookButton title="Signup with Facebook" />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -114,6 +139,11 @@ const styles = StyleSheet.create({
     backgroundColor: $coolBlue,
     borderRadius: 50,
     width: 40,
+  },
+  profileImage: {
+    height: 150,
+    width: 150,
+    borderRadius: 75,
   },
   inputButtonContainer: {
     width: 340,

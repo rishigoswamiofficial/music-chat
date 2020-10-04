@@ -2,11 +2,16 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { BottomSheet, ListItem, Icon } from 'react-native-elements';
 
-const PhotoUpload = ({ isVisible, onRequestClose }) => {
+const PhotoUpload = ({
+  isVisible,
+  onRequestClose,
+  openImagePicker,
+  openCamera,
+}) => {
   const list = [
     {
       title: 'Camera',
-      onPress: 'Open Camera',
+      onPress: openCamera,
       icon: {
         name: 'camera',
         type: 'entypo',
@@ -14,7 +19,7 @@ const PhotoUpload = ({ isVisible, onRequestClose }) => {
     },
     {
       title: 'Choose from Gallery',
-      onPress: 'Open Gallery',
+      onPress: openImagePicker,
       icon: {
         name: 'photo',
         type: 'material-icons',
@@ -30,7 +35,7 @@ const PhotoUpload = ({ isVisible, onRequestClose }) => {
       }}
     >
       {list.map((item, index) => (
-        <ListItem key={index} bottomDivider>
+        <ListItem key={index} bottomDivider onPress={item.onPress}>
           <Icon
             name={item.icon.name}
             type={item.icon.type}
