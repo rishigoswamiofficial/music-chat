@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import {
   NavigationContainer,
   getFocusedRouteNameFromRoute,
@@ -7,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Icon } from 'react-native-elements';
 
 import WelcomeScreen from './WelcomeScreen';
 import SignupScreen from './SignupScreen';
@@ -25,6 +27,10 @@ import ChatScreen from './ChatScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
+
+const $coolBlue = '#39A0ED';
+const $white = '#ffffff';
+const $black = '#000000';
 
 const FriendsTab = () => {
   return (
@@ -66,7 +72,7 @@ const MusicTab = () => {
   );
 };
 
-const isSignedIn = false;
+const isSignedIn = true;
 
 const AuthFlow = () => {
   return (
@@ -85,11 +91,71 @@ const AuthFlow = () => {
 
 const MainFlow = () => {
   return (
-    <Tab.Navigator initialRouteName="Friends">
-      <Tab.Screen name="Friends" component={FriendsTab} />
-      <Tab.Screen name="Music" component={MusicTab} />
-      <Tab.Screen name="Playlists" component={PlaylistsScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+    <Tab.Navigator
+      initialRouteName="Friends"
+      tabBarOptions={{
+        showLabel: false,
+        activeBackgroundColor: $coolBlue,
+        activeTintColor: $white,
+        inactiveTintColor: $black,
+      }}
+    >
+      <Tab.Screen
+        name="Friends"
+        component={FriendsTab}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Icon
+              name="user-friends"
+              type="font-awesome-5"
+              size={22}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Music"
+        component={MusicTab}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Icon
+              name="music-note-eighth"
+              type="material-community"
+              size={25}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Playlists"
+        component={PlaylistsScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Icon
+              name="library-music"
+              type="material"
+              size={25}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Icon
+              name="user-alt"
+              type="font-awesome-5"
+              size={19}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -120,7 +186,30 @@ const Screens = () => {
             <Stack.Screen
               name="Main"
               component={MainFlow}
-              options={({ route }) => ({ headerShown: showHideHeader(route) })}
+              options={({ route }) => ({
+                headerShown: showHideHeader(route),
+                headerStyle: { backgroundColor: $coolBlue },
+                headerTitle: 'Music Chat',
+                headerTitleStyle: {
+                  color: $white,
+                  fontFamily: 'Alegreya_700Bold',
+                  fontSize: 33,
+                },
+                headerTitleAllowFontScaling: true,
+                headerRight: () => {
+                  return (
+                    <TouchableOpacity underlayColor>
+                      <Icon
+                        name="search"
+                        type="font-awesome"
+                        color={$white}
+                        size={23}
+                        containerStyle={{ marginRight: 20 }}
+                      />
+                    </TouchableOpacity>
+                  );
+                },
+              })}
             />
           ) : (
             <Stack.Screen
