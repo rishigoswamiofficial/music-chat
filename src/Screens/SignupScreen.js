@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ActionButton from '../Components/Buttons/actionButton';
 import GoogleButton from '../Components/Buttons/googleButton';
 import FacebookButton from '../Components/Buttons/facebookButton';
-import PhotoUpload from '../Components/BottomSheets/PhotoUpload';
+import PhotoUpload from '../Components/BottomSheets/photoUpload';
 import useImagePicker from '../Hooks/useImagePicker';
 import useCamera from '../Hooks/useCamera';
 

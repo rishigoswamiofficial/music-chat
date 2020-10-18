@@ -20,6 +20,7 @@
     "react/require-extension": "off",
     "arrow-body-style": "off",
     "react-native/no-inline-styles": "off",
-    "react-native/sort-styles": "off"
+    "react-native/sort-styles": "off",
+    "no-underscore-dangle":"off"
   }
 }

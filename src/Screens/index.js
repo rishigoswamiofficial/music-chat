@@ -31,10 +31,23 @@ const TopTab = createMaterialTopTabNavigator();
 const $coolBlue = '#39A0ED';
 const $white = '#ffffff';
 const $black = '#000000';
+const $backGroundBlack = '#212529';
 
 const FriendsTab = () => {
   return (
-    <TopTab.Navigator initialRouteName="Conversations">
+    <TopTab.Navigator
+      initialRouteName="Conversations"
+      tabBarOptions={{
+        style: { backgroundColor: $backGroundBlack },
+        labelStyle: {
+          color: $white,
+          fontFamily: 'Alegreya_500Medium',
+          fontSize: 18,
+          textTransform: 'capitalize',
+        },
+        indicatorStyle: { backgroundColor: $white },
+      }}
+    >
       <TopTab.Screen name="Conversations" component={ConversationsTopTab} />
       <TopTab.Screen name="Contacts" component={ContactsScreen} />
     </TopTab.Navigator>
@@ -79,7 +92,7 @@ const AuthFlow = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        cardStyle: { backgroundColor: '#212529' },
+        cardStyle: { backgroundColor: $backGroundBlack },
       }}
     >
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
