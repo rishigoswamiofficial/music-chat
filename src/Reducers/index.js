@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
+import authReducer from './authReducer';
+
 export default combineReducers({
-  friends: (state = 5) => {
-    return state;
-  }
+  auth: authReducer
 });

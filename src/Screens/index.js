@@ -1,14 +1,12 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import {
-  NavigationContainer,
-  getFocusedRouteNameFromRoute,
-} from '@react-navigation/native';
+import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 import WelcomeScreen from './WelcomeScreen';
 import SignupScreen from './SignupScreen';
@@ -43,9 +41,9 @@ const FriendsTab = () => {
           color: $white,
           fontFamily: 'Alegreya_500Medium',
           fontSize: 18,
-          textTransform: 'capitalize',
+          textTransform: 'capitalize'
         },
-        indicatorStyle: { backgroundColor: $white },
+        indicatorStyle: { backgroundColor: $white }
       }}
     >
       <TopTab.Screen name="Conversations" component={ConversationsTopTab} />
@@ -75,7 +73,7 @@ const MusicTab = () => {
       initialRouteName="Music"
       screenOptions={{
         headerShown: false,
-        cardStyle: { backgroundColor: '#212529' },
+        cardStyle: { backgroundColor: '#212529' }
       }}
     >
       <Stack.Screen name="Music" component={MusicScreen} />
@@ -85,14 +83,12 @@ const MusicTab = () => {
   );
 };
 
-const isSignedIn = true;
-
 const AuthFlow = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        cardStyle: { backgroundColor: $backGroundBlack },
+        cardStyle: { backgroundColor: $backGroundBlack }
       }}
     >
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
@@ -110,7 +106,7 @@ const MainFlow = () => {
         showLabel: false,
         activeBackgroundColor: $coolBlue,
         activeTintColor: $white,
-        inactiveTintColor: $black,
+        inactiveTintColor: $black
       }}
     >
       <Tab.Screen
@@ -118,13 +114,8 @@ const MainFlow = () => {
         component={FriendsTab}
         options={{
           tabBarIcon: ({ color }) => (
-            <Icon
-              name="user-friends"
-              type="font-awesome-5"
-              size={22}
-              color={color}
-            />
-          ),
+            <Icon name="user-friends" type="font-awesome-5" size={22} color={color} />
+          )
         }}
       />
       <Tab.Screen
@@ -132,13 +123,8 @@ const MainFlow = () => {
         component={MusicTab}
         options={{
           tabBarIcon: ({ color }) => (
-            <Icon
-              name="music-note-eighth"
-              type="material-community"
-              size={25}
-              color={color}
-            />
-          ),
+            <Icon name="music-note-eighth" type="material-community" size={25} color={color} />
+          )
         }}
       />
       <Tab.Screen
@@ -146,13 +132,8 @@ const MainFlow = () => {
         component={PlaylistsScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <Icon
-              name="library-music"
-              type="material"
-              size={25}
-              color={color}
-            />
-          ),
+            <Icon name="library-music" type="material" size={25} color={color} />
+          )
         }}
       />
       <Tab.Screen
@@ -160,13 +141,8 @@ const MainFlow = () => {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <Icon
-              name="user-alt"
-              type="font-awesome-5"
-              size={19}
-              color={color}
-            />
-          ),
+            <Icon name="user-alt" type="font-awesome-5" size={19} color={color} />
+          )
         }}
       />
     </Tab.Navigator>
@@ -190,12 +166,12 @@ const showHideHeader = (route) => {
   }
 };
 
-const Screens = () => {
+const Screens = (props) => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          {isSignedIn ? (
+          {props.isSignedIn ? (
             <Stack.Screen
               name="Main"
               component={MainFlow}
@@ -206,7 +182,7 @@ const Screens = () => {
                 headerTitleStyle: {
                   color: $white,
                   fontFamily: 'Alegreya_700Bold',
-                  fontSize: 33,
+                  fontSize: 33
                 },
                 headerTitleAllowFontScaling: true,
                 headerRight: () => {
@@ -221,15 +197,11 @@ const Screens = () => {
                       />
                     </TouchableOpacity>
                   );
-                },
+                }
               })}
             />
           ) : (
-            <Stack.Screen
-              name="Auth"
-              component={AuthFlow}
-              options={{ headerShown: false }}
-            />
+            <Stack.Screen name="Auth" component={AuthFlow} options={{ headerShown: false }} />
           )}
         </Stack.Navigator>
       </NavigationContainer>
@@ -237,4 +209,10 @@ const Screens = () => {
   );
 };
 
-export default Screens;
+const mapStateToProps = (state) => {
+  return {
+    isSignedIn: state.auth.isSignedIn
+  };
+};
+
+export default connect(mapStateToProps, null)(Screens);

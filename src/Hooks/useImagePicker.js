@@ -6,7 +6,7 @@ export default () => {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
     if (permissionResult.granted === false) {
       Alert.alert('Alert!', 'Sorry! we need access to your photos.', [
-        { text: 'Ok', onPress: () => console.log('Ok') },
+        { text: 'Ok', onPress: () => console.log('Ok') }
       ]);
       return;
     }
@@ -16,7 +16,7 @@ export default () => {
     const pickerResult = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 4],
-      quality: 1,
+      quality: 1
     });
     console.log(pickerResult);
     if (!pickerResult.cancelled) {

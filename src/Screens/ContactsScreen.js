@@ -1,12 +1,22 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView, StatusBar, StyleSheet } from 'react-native';
 
 const ContactsScreen = () => {
   return (
-    <View>
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <StatusBar barStyle="light-content" backgroundColor="#398FED" />
       <Text>ContactsScreen</Text>
-    </View>
+    </ScrollView>
   );
 };
+
+const $backGroundBlack = '#212529';
+
+const styles = StyleSheet.create({
+  scrollViewContainer: {
+    flex: 1,
+    backgroundColor: $backGroundBlack
+  }
+});
 
 export default ContactsScreen;
