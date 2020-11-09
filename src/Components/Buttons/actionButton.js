@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'react-native-elements';
 
 const ActionButton = ({
@@ -9,21 +9,22 @@ const ActionButton = ({
   marginVertical,
   marginHorizontal,
   onPress,
+  loading
 }) => {
   const $coolBlue = '#39A0ED';
   const styles = {
     buttonTitle: {
       fontFamily: fontFamily || 'OpenSans_600SemiBold',
-      fontSize: fontSize || 16,
+      fontSize: fontSize || 16
     },
     button: {
       width: width || 320,
-      backgroundColor: $coolBlue,
+      backgroundColor: $coolBlue
     },
     buttonContainer: {
       marginVertical: marginVertical || 20,
-      marginHorizontal: marginHorizontal || 0,
-    },
+      marginHorizontal: marginHorizontal || 0
+    }
   };
 
   return (
@@ -34,6 +35,7 @@ const ActionButton = ({
       buttonStyle={styles.button}
       containerStyle={styles.buttonContainer}
       onPress={onPress}
+      loading={loading}
     />
   );
 };

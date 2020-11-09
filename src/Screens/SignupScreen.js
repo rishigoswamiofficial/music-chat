@@ -27,7 +27,7 @@ const SignupScreen = (props) => {
   const [askCameraRollPermissions, openImagePicker] = useImagePicker();
   const [askCameraPermissions, openCamera] = useCamera();
 
-  const { email, password, name, phone, signupRequest } = props;
+  const { email, password, name, phone, signup } = props;
 
   useEffect(() => {
     askCameraPermissions();
@@ -35,10 +35,14 @@ const SignupScreen = (props) => {
   });
 
   const onPressActionButton = () => {
-    if (image) {
-      const profilePic = Platform.OS === 'android' ? image : image.replace('file://', '');
-      signupRequest(email, password, name, phone, profilePic);
+    if (!image) {
+      return Alert.alert('Error!', 'No image found!', [
+        { text: 'Ok', onPress: () => console.log('No image found!') }
+      ]);
     }
+    props.isLoading();
+    const profilePic = Platform.OS === 'android' ? image : image.replace('file://', '');
+    signup(email, password, name, phone, profilePic);
   };
   const { error, clearErrorMessage, clearAuthForm, navigation } = props;
   console.log(error);
@@ -138,7 +142,7 @@ const SignupScreen = (props) => {
             value={props.password}
             onChangeText={(text) => props.authFormInput({ prop: 'password', value: text })}
           />
-          <ActionButton title="Signup" onPress={onPressActionButton} />
+          <ActionButton title="Signup" onPress={onPressActionButton} loading={props.loading} />
           <GoogleButton title="Signup with Google" />
           <FacebookButton title="Signup with Facebook" />
         </View>
@@ -201,7 +205,8 @@ const mapStateToProps = (state) => {
     password: state.auth.password,
     name: state.auth.name,
     phone: state.auth.phone,
-    error: state.auth.error
+    error: state.auth.error,
+    loading: state.auth.loading
   };
 };
 

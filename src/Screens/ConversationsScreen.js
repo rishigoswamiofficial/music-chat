@@ -1,19 +1,19 @@
 import React from 'react';
-import { View, Text, StatusBar, ScrollView, StyleSheet } from 'react-native';
+import { View, StatusBar, StyleSheet } from 'react-native';
 
 const ConversationsScreen = () => {
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+    <View style={styles.mainViewContainer}>
       <StatusBar barStyle="light-content" backgroundColor="#398FED" />
-      <Text>ConversationsScreen</Text>
-    </ScrollView>
+    </View>
   );
 };
 
 const $backGroundBlack = '#212529';
+const $coolBlue = '#39A0ED';
 
 const styles = StyleSheet.create({
-  scrollViewContainer: {
+  mainViewContainer: {
     flex: 1,
     backgroundColor: $backGroundBlack
   }

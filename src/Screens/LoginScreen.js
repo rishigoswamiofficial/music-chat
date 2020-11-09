@@ -10,9 +10,10 @@ import * as Actions from '../Actions';
 
 const LoginScreen = (props) => {
   const onPressActionButton = () => {
-    props.loginRequest(props.email, props.password);
+    isLoading();
+    login(props.email, props.password);
   };
-  const { error, clearErrorMessage, clearAuthForm, navigation } = props;
+  const { error, clearErrorMessage, clearAuthForm, navigation, isLoading, login } = props;
   useEffect(() => {
     let ignore = false;
     if (!ignore) {
@@ -23,6 +24,7 @@ const LoginScreen = (props) => {
     return () => {
       ignore = true;
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
   useEffect(() => {
@@ -30,6 +32,7 @@ const LoginScreen = (props) => {
       clearAuthForm();
     });
     return unsubscribe;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation]);
 
   return (
@@ -53,7 +56,7 @@ const LoginScreen = (props) => {
           value={props.password}
           onChangeText={(text) => props.authFormInput({ prop: 'password', value: text })}
         />
-        <ActionButton title="Login" onPress={onPressActionButton} />
+        <ActionButton title="Login" onPress={onPressActionButton} loading={props.loading} />
         <GoogleButton title="Login with Google" />
         <FacebookButton title="Login with Facebook" />
       </View>
@@ -93,7 +96,8 @@ const mapStateToProps = (state) => {
   return {
     email: state.auth.email,
     password: state.auth.password,
-    error: state.auth.error
+    error: state.auth.error,
+    loading: state.auth.loading
   };
 };
 

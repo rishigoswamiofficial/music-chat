@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -7,6 +7,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import WelcomeScreen from './WelcomeScreen';
 import SignupScreen from './SignupScreen';
@@ -167,6 +168,14 @@ const showHideHeader = (route) => {
 };
 
 const Screens = (props) => {
+  useEffect(() => {
+    // TODO: Remove this useEffect
+    AsyncStorage.clear((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }, []);
   return (
     <SafeAreaProvider>
       <NavigationContainer>
